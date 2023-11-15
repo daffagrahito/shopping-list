@@ -12,7 +12,6 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
-from django.contrib.auth import logout as auth_logout
 
 # Create your views here.
 @login_required(login_url='/login')
@@ -147,20 +146,3 @@ def create_product_flutter(request):
         return JsonResponse({"status": "success"}, status=200)
     else:
         return JsonResponse({"status": "error"}, status=401)
-    
-@csrf_exempt
-def logout(request):
-    username = request.user.username
-
-    try:
-        auth_logout(request)
-        return JsonResponse({
-            "username": username,
-            "status": True,
-            "message": "Logout berhasil!"
-        }, status=200)
-    except:
-        return JsonResponse({
-        "status": False,
-        "message": "Logout gagal."
-        }, status=401)
